@@ -24,13 +24,20 @@ namespace KeepBurningCorpse
 
         public static void Pawn_Kill_Prefix(Pawn __instance /* , DamageInfo? dinfo, Hediff exactCulprit */)
         {
+            // We get the 'Fire' object that might be attached to a pawn here to a temporary, before it is
+            // removed by 'Pawn.MakeCorpse(assignedGrave, currentBed)', which is called later in 'Pawn::Kill()'.
             fire_tmp = __instance.GetAttachment(ThingDefOf.Fire) as Fire;
         }
 
         public static void Pawn_Kill_Postfix() {
+            // Null the temporary so the resources for the fire can get freed in case it wasn't used in 'Pawn::Kill()'.
             fire_tmp = null;
         }
 
+        // This function gets called instead of the original 'AttachmentUtility.GetAttachment()' in 'Pawn::Kill()'.
+        // By returning the correct 'Fire' object here, which has actually been removed from thhe attachments at this
+        // point in 'Pawn::Kill()', we restore the original bugged game functionality which will attach the fire to
+        // the generated corpse.
         public static Thing MyGetAttachment(Thing t, ThingDef def) {
             if (def == ThingDefOf.Fire) {
                 Fire fire = fire_tmp;
@@ -40,6 +47,9 @@ namespace KeepBurningCorpse
             return t.GetAttachment(def);
         }
 
+
+        // Transpiler to patch the call to 'AttachmentUtility.GetAttachment()' in 'Pawn.Kill()' to go to our own function
+        // 'KeepBurningCorpse.MyGetAttachment()' above instead.
         public static IEnumerable<CodeInstruction> Pawn_Kill_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             int phase = 0;
