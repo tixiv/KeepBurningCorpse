@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>Keep Burning, Corpse!</name>
+    <author>Tixiv</author>
+    <url>https://github.com/tixiv/KeepBurningCorpse</url>
+    <packageId>tixiv.KeepBurningCorpse</packageId>
+    <supportedVersions>
+		<li>1.6</li>
+    </supportedVersions>
+<description>
+Have you ever wondered why the fire goes out when a pawn that is on fire dies? It doesn't seem realistic, and with Shamblers an Death Pall it's a real nuisance.
+
+Turns out this is actually a bug, as Rimworld has specific code to keep the fire when a pawn dies. It just doesn't work out of the box since the check for the fire is done after the fire is already removed.
+
+This mod fixes that:
+If anything dies while on fire, the corpse will keep burning with this mod. That's all it does.
+</description>
+    <modDependencies>
+        <li>
+            <packageId>brrainz.harmony</packageId>
+            <displayName>Harmony</displayName>
+            <downloadUrl>https://github.com/pardeike/HarmonyRimWorld</downloadUrl>
+            <steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+        </li>
+    </modDependencies>
+    <loadAfter>
+        <li>brrainz.harmony</li>
+        <li>Ludeon.RimWorld</li>
+    </loadAfter>
+</ModMetaData>
